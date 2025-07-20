@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  reflectpause-bot:
+    build: .
+    container_name: reflectpause-bot
+    restart: unless-stopped
+    environment:
+      - DISCORD_TOKEN=${DISCORD_TOKEN}
+      - PERSPECTIVE_API_KEY=${PERSPECTIVE_API_KEY}
+      - TOXICITY_THRESHOLD=${TOXICITY_THRESHOLD:-0.7}
+      - USE_PERSPECTIVE_API=${USE_PERSPECTIVE_API:-false}
+      - DEFAULT_LOCALE=${DEFAULT_LOCALE:-en}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+    networks:
+      - reflectpause-network
+
+networks:
+  reflectpause-network:
+    driver: bridge
+
+volumes:
+  bot-data:
+    driver: local
